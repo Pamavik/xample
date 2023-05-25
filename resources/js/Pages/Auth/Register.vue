@@ -6,11 +6,19 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
+const props = defineProps({
+    teacher_id: {
+        default: '',
+        type: String,
+    },
+});
+
 const form = useForm({
     name: '',
     surname: '',
     role: 0,
     email: '',
+    teacher_id: props.teacher_id,
     password: '',
     password_confirmation: '',
     terms: false,
@@ -37,7 +45,6 @@ const submit = () => {
                     class="mt-1 block w-full"
                     v-model="form.name"
                     required
-                    autofocus
                     autocomplete="name"
                 />
 
@@ -74,7 +81,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <fieldset class="mt-2">
+            <fieldset class="mt-2" v-if="props.teacher_id.length == 0">
                 <legend class="block font-medium text-sm text-gray-700">Выберите, кем вы являетесь:</legend>
 
                 <div>

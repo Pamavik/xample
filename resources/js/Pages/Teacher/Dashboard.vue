@@ -21,15 +21,20 @@ defineProps({
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Кабинет</h2>
         </template>
 
-
-
-                <div class="py-12">
+                <div class="py-6">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900">{{user.name}} {{user.surname}}</div>
                         </div>
-                        <div class="p-6 text-gray-900">
-                            <Link :href="route('teacher.invite')">Приглашение ученикам.</Link> 
+                    </div>
+                </div>
+
+                <div class="pb-6">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            <div class="p-6 text-gray-900">
+                                <p class="break-words">Ссылка на регистрацию ученикам: <strong>https://xample.ru/register/{{user.id}}</strong></p> 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,7 +45,7 @@ defineProps({
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight p-6">Новые ученики</h3>
                             <div class="px-6 pb-3 text-gray-900" v-for="student in newstudents" 
                                 :key="student.id">
-                                    Ученик: <strong>{{student.name}} {{student.surname}}</strong> Рейтинг: <strong>{{student.rating}}</strong>
+                                    <Link :href="route('teacher.user', {'user_id': student.id})">Ученик: <strong>{{student.name}} {{student.surname}}</strong></Link>
                             </div>
                         </div>
                     </div>
@@ -58,14 +63,14 @@ defineProps({
                     </div>
                 </div>
 
-
-                    <div class="container  mx-auto py-12">
+                <div class="pb-6">
+                    <div class="container mx-auto sm:px-6 lg:px-8">
                         <Toast toast="toast1">
                             <p>Мы предоставляем инструменты, которые позволяют репетиторам создавать упражнения для изучения иностранных языков, которые могут быть использованы их учениками. Мы понимаем, что каждый ученик уникален и имеет свои индивидуальные потребности в изучении языков, поэтому мы даем возможность нашим репетиторам создавать упражнения, которые могут соответствовать их потребностям.</p>
                             <p>Наш сервис предлагает репетиторам различные инструменты, которые помогают создавать уникальные и интересные упражнения для изучения иностранных языков.</p>
                         </Toast>
                     </div>
-
+                </div>
                 
 
 

@@ -1,7 +1,5 @@
 <template>
     <div class="relative">
-        <!-- Page Heading -->
-        <h1 class="text-2xl font-semibold mb-2 lg:mb-0">Упражнение на знание языка</h1>
         <!-- Page Content -->
         <div class="w-full bg-white border rounded-lg p-4 my-4">
             {{ question }}
