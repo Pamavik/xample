@@ -60,6 +60,6 @@ const deleteXample = (xample) => {
                     <pagination class="mt-6" :links="xamples.links" />
                 </div>
             </div>
-        <ModalDialog v-if="displayModal" :onConfirm="confirm" :onCancel="cancel" />
+        <ModalDialog v-if="displayModal" question="Вы действительно хотите удалить?" :onConfirm="confirm" :onCancel="cancel" />
     </AuthenticatedLayout>
 </template>

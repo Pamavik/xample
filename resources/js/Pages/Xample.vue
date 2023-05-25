@@ -49,7 +49,6 @@ function successQuestion() {
     stats.value.success++;
 }
 function errorQuestion(msg, answer) {
-    console.log(answer);
     state.value='message';
     message.value.type="red";
     message.value.text=msg;

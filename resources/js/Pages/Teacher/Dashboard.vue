@@ -1,5 +1,6 @@
 <script setup>
 import Sidebar from '@/Components/Sidebar.vue';
+import Toast from '@/Components/Toast.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage, Link } from '@inertiajs/vue3';
 
@@ -28,7 +29,7 @@ defineProps({
                             <div class="p-6 text-gray-900">{{user.name}} {{user.surname}}</div>
                         </div>
                         <div class="p-6 text-gray-900">
-                            <Link :href="route('teacher.invite')">Пришлашение ученикам.</Link> 
+                            <Link :href="route('teacher.invite')">Приглашение ученикам.</Link> 
                         </div>
                     </div>
                 </div>
@@ -57,6 +58,15 @@ defineProps({
                     </div>
                 </div>
 
+
+                    <div class="container  mx-auto py-12">
+                        <Toast toast="toast1">
+                            <p>Мы предоставляем инструменты, которые позволяют репетиторам создавать упражнения для изучения иностранных языков, которые могут быть использованы их учениками. Мы понимаем, что каждый ученик уникален и имеет свои индивидуальные потребности в изучении языков, поэтому мы даем возможность нашим репетиторам создавать упражнения, которые могут соответствовать их потребностям.</p>
+                            <p>Наш сервис предлагает репетиторам различные инструменты, которые помогают создавать уникальные и интересные упражнения для изучения иностранных языков.</p>
+                        </Toast>
+                    </div>
+
+                
 
 
 

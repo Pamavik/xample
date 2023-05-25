@@ -23,11 +23,13 @@
         <div>
             <PrimaryButton @click="checkAnswer()" :disabled="answers.length === 0">Проверить</PrimaryButton>
         </div>
+        <ModalDialog v-if="displayModal" question="Нет знака препинания в конце предложения. Продолжить?" :onConfirm="confirm"  :onCancel="cancel"/>
     </div>
 </template>
 
 <script>
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import ModalDialog  from "@/Components/ModalDialog.vue";
 export default {
     name: 'Example',
     props: [
@@ -36,7 +38,8 @@ export default {
         'words'
     ],
     components: {
-        PrimaryButton
+        PrimaryButton,
+        ModalDialog
     },
     data() {
         return {
@@ -44,7 +47,9 @@ export default {
             //answer: "Hello! What is your name?",
             answers: [],
             //words: ["what", "I", "you", "are", "am", "Hello", "he", "is", "name", "your", "?", "!"],
-            wordList: []
+            wordList: [],
+            timer: null,
+            displayModal: false,
         }
     },
     mounted() {
@@ -119,17 +124,39 @@ export default {
             let index = this.wordList.indexOf(word);
             this.answers.push(word);
             this.wordList.splice(index, 1); 
+            let self = this;
+            if (this.sanswer == this.answer) {
+                this.timer = setTimeout(function(){
+                    self.checkAnswer();
+                }, 250);
+            }
         },
-        checkAnswer() {
+        checkAnswer(confirm = false) {
             let a = this.sanswer;
             let answer = this.answer;
+            let lsa = a.slice(-1);
+            let la = answer.slice(-1);
+            if ((lsa != la)&&(!confirm)) {
+                this.displayModal = true;
+                return;
+            }
             if (answer == a) {
                 this.$emit('successQuestion');
             }else {
                 this.$emit('errorQuestion', 'Правильный ответ: '+this.answer, a);
             }
             
-        }
+        },
+        confirm() {
+            this.displayModal = false;
+            this.checkAnswer(true);
+        },
+        cancel() {
+            this.displayModal = false;
+        },
+    },
+    unmounted() {
+        clearInterval(this.timer)
     }
 }
 </script>

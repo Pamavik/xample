@@ -8,12 +8,12 @@
     <div class="flex justify-center items-center w-full h-full fixed top-0 bottom-0 left-0 right-0 p-4 z-40" style="background: rgba(0,0,0,0.5">
     <div class="bg-white mx-auto p-4 rounded-lg max-w-md flex-col relative h-min">
       <span class="absolute right-4 top-2 cursor-pointer" @click="emit('cancel')">🗙</span>
-      <h2 class="font-semibold mb-4 mt-6">Вы действительно хотите удалить?</h2>
+      <h2 class="font-semibold mb-4 mt-6">{{ question }}</h2>
       <div class="flex flex-row justify-between">
         <button class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow"
-            @click="emit('confirm')">Confirm</button>
+            @click="emit('confirm')">Подтвердить</button>
         <button class="bg-slate-500 hover:bg-slate-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow ml-4"
-            @click="emit('cancel')">Cancel</button>
+            @click="emit('cancel')">Отмена</button>
       </div>
     </div>
   </div>
