@@ -7,7 +7,7 @@ const props = defineProps(['stats']);
 <template>
     <div class="relative">
         <div class="w-full bg-white border rounded-lg p-4 my-4">
-            <h3 class="font-semibold">Тест пройден</h3>
+            <h3 class="font-semibold">Упражнение пройдено</h3>
             <p>Количество правильных ответов: {{props.stats.success}}</p>
             <p>Количество ошибок: {{props.stats.error}}</p>
         </div>

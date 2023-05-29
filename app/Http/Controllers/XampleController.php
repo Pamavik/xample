@@ -18,7 +18,7 @@ class XampleController extends Controller
     {
         $userID = auth()->user()->id;
         return Inertia::render('Teacher/Xample/Index', [
-            'xamples' => Xample::where('teacher_id', '=', $userID)->latest()->paginate(2),
+            'xamples' => Xample::where('teacher_id', '=', $userID)->latest()->paginate(10),
         ]);
     }
 

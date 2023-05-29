@@ -55,7 +55,7 @@ function deleteItem(index) {
 
                             <TextInput
                                 id="title"
-                                type="title"
+                                type="text"
                                 class="mt-1 block w-full mb-4 p-2 outline-none border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 rounded-md shadow-sm"
                                 v-model="form.title"
                                 required

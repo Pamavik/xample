@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Group;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -22,7 +23,8 @@ class RegisteredUserController extends Controller
     public function create(string $invite = ''): Response
     {
         $teacher = User::find($invite);
-        if (!$teacher) {
+        $group = Group::find($invite);
+        if (!$teacher and !$group) {
             $invite = '';
         }
         return Inertia::render('Auth/Register', [
@@ -45,11 +47,18 @@ class RegisteredUserController extends Controller
             'invite' => ['ulid'],
         ]);
 
-        $teacher = User::first($request->invite);
-        if ($teacher->exists()) {
+        $teacher = User::find($request->invite);
+        if (isset($teacher)) {
             $teacher_id = $request->invite;
         } else {
             $teacher_id = '';
+        }
+        $group = Group::find($request->invite);
+        if (isset($group)) {
+            $group_id = $request->invite;
+            $teacher_id = $group->teacher_id;
+        } else {
+            $group_id = '';
         }
         $user = User::create([
             'name' => $request->name,
@@ -57,6 +66,7 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
             'email' => $request->email,
             'teacher_id' => $teacher_id,
+            'group_id' => $group_id,
             'password' => Hash::make($request->password),
         ]);
 

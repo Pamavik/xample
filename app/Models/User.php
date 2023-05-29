@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class User extends Authenticatable
 {
@@ -28,6 +29,7 @@ class User extends Authenticatable
         'role',
         'subscription_date',
         'teacher_id',
+        'group_id',
         'email',
         'password',
     ];
@@ -85,11 +87,24 @@ class User extends Authenticatable
         return $this->hasMany(Xample::class, 'teacher_id');
     }
 
+    public function group(): HasMany
+    {
+        return $this->hasMany(Group::class, 'teacher_id');
+    }
+
     /**
      * The xample that belong to the user.
      */
-    public function xamples(): BelongsToMany
+    /**public function xamples(): BelongsToMany
     {
         return $this->belongsToMany(Xample::class, 'user_xample');
+    }*/
+
+    /**
+     * Get all of the xamples for the group.
+     */
+    public function xamples(): MorphToMany
+    {
+        return $this->morphToMany(Xample::class, 'xamplable');
     }
 }

@@ -1,6 +1,7 @@
 <script setup>
 import Sidebar from '@/Components/Sidebar.vue';
 import Toast from '@/Components/Toast.vue';
+import Panel from '@/Components/Panel.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage, Link } from '@inertiajs/vue3';
 
@@ -23,9 +24,7 @@ defineProps({
 
                 <div class="py-6">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="p-6 text-gray-900">{{user.name}} {{user.surname}}</div>
-                        </div>
+                        <Panel />
                     </div>
                 </div>
 
@@ -33,7 +32,7 @@ defineProps({
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6 text-gray-900">
-                                <p class="break-words">Ссылка на регистрацию ученикам: <strong>https://xample.ru/register/{{user.id}}</strong></p> 
+                                <p class="break-words">Ссылка на регистрацию ученика без группы: <strong>https://xample.ru/register/{{user.id}}</strong></p> 
                             </div>
                         </div>
                     </div>

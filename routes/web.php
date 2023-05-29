@@ -5,8 +5,8 @@ use App\Http\Controllers\TeacherDashboardController;
 use App\Http\Controllers\TeacherAvailableController;
 use App\Http\Controllers\TeacherUsersController;
 use App\Http\Controllers\XampleController;
+use App\Http\Controllers\GroupController;
 use App\Http\Controllers\UserDashboardController;
-use App\Http\Controllers\InviteController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -53,14 +53,13 @@ Route::middleware('auth')->group(function () {
 ])->middleware(['auth', 'user-access:user']);*/
 
 Route::prefix('teacher')->name('teacher.')->group(function () {
-    Route::resource('xamples', XampleController::class)
-    ->middleware(['auth', 'user-access:teacher']);
+    Route::resource('xamples', XampleController::class);
+    Route::resource('groups', GroupController::class);
     Route::get('users', [TeacherUsersController::class, 'index'])->name('users');
     Route::get('user', [TeacherUsersController::class, 'showUser'])->name('user');
     Route::put('user', [TeacherUsersController::class, 'updateUser'])->name('updateuser');
-    Route::get('invite', [InviteController::class, 'index'])->name('invite');
-    Route::get('invitepdf', [InviteController::class, 'invitepdf'])->name('invitepdf');
-});
+    Route::put('usergroup', [TeacherUsersController::class, 'updateUserGroup'])->name('updateusergroup');
+})->middleware(['auth', 'user-access:teacher']);
 
 Route::middleware('auth', 'user-access:user')->group(function () {
     Route::get('/teacheravailable', [TeacherAvailableController::class, 'index'])->name('teacheravailable.index');
