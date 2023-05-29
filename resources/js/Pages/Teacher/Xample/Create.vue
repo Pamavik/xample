@@ -4,12 +4,14 @@ import Sidebar from '@/Components/Sidebar.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
+import Wysiwyg from '@/Components/Wysiwyg.vue';
 import { useForm, Head, Link } from '@inertiajs/vue3';
 import { reactive } from 'vue'
 
 const form = useForm({
     title: '',
     description: '',
+    description1: '',
     items: [],
 });
 
@@ -60,6 +62,7 @@ function deleteItem(index) {
                     />
                     <InputError :message="form.errors.title" class="mt-2 mb-4" />
                     <InputLabel for="description" value="Описание упражнения" />
+                    <wysiwyg v-model="form.description1" />
                     <textarea
                         id="description"
                         v-model="form.description"

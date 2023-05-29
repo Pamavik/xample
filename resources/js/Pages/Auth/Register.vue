@@ -7,7 +7,7 @@ import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    teacher_id: {
+    invite: {
         default: '',
         type: String,
     },
@@ -18,7 +18,7 @@ const form = useForm({
     surname: '',
     role: 0,
     email: '',
-    teacher_id: props.teacher_id,
+    invite: props.invite,
     password: '',
     password_confirmation: '',
     terms: false,
@@ -81,7 +81,7 @@ const submit = () => {
                 <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
-            <fieldset class="mt-2" v-if="props.teacher_id.length == 0">
+            <fieldset class="mt-2" v-if="props.invite.length == 0">
                 <legend class="block font-medium text-sm text-gray-700">Выберите, кем вы являетесь:</legend>
 
                 <div>

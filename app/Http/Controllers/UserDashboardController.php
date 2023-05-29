@@ -16,7 +16,9 @@ class UserDashboardController extends Controller
         $user = User::find(auth()->user()->id);
         $userxamples = $user->xamples()->get();
 
-        
+        $userxamples = $userxamples->map(function ($record) {
+            return ['id' => $record->id, 'title' => $record->title ];
+          });
         return Inertia::render('Dashboard', [
             'userxamples' => $userxamples,
         ]);

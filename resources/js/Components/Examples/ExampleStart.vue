@@ -6,8 +6,7 @@ const props = defineProps(['description']);
 </script>
 <template>
     <div class="relative">
-        <div class="w-full bg-white border rounded-lg p-4 my-4">
-            {{ props.description }}
+        <div v-if="props.description" class="w-full bg-white border rounded-lg p-4 my-4" v-html="props.description">
         </div>
         <div>
             <PrimaryButton @click="$emit('startXample')">Начать</PrimaryButton>

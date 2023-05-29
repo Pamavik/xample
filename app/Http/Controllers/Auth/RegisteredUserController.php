@@ -19,14 +19,14 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(string $teacher_id = ''): Response
+    public function create(string $invite = ''): Response
     {
-        $teacher = User::find($teacher_id);
+        $teacher = User::find($invite);
         if (!$teacher) {
-            $teacher_id = '';
+            $invite = '';
         }
         return Inertia::render('Auth/Register', [
-            'teacher_id' => $teacher_id,
+            'invite' => $invite,
         ]);
     }
 
@@ -42,15 +42,21 @@ class RegisteredUserController extends Controller
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'teacher_id' => ['ulid'],
+            'invite' => ['ulid'],
         ]);
 
+        $teacher = User::first($request->invite);
+        if ($teacher->exists()) {
+            $teacher_id = $request->invite;
+        } else {
+            $teacher_id = '';
+        }
         $user = User::create([
             'name' => $request->name,
             'surname' => $request->surname,
             'role' => $request->role,
             'email' => $request->email,
-            'teacher_id' => $request->teacher_id,
+            'teacher_id' => $teacher_id,
             'password' => Hash::make($request->password),
         ]);
 

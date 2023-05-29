@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
+import Wysiwyg from '@/Components/Wysiwyg.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import { ref, reactive } from 'vue';
 
@@ -12,6 +13,7 @@ const props = defineProps(['xample']);
 const form = useForm({
     title: props.xample.title,
     description: props.xample.description,
+    description1: '',
     items: props.xample.items,
 });
 
@@ -43,7 +45,7 @@ function deleteItem(index) {
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Редактировать упражнение</h2>
         </template>
-
+            <div class="max-w-7xl mx-auto sm:px-2">
                 <div class="m-6">
                     <!-- Page Heading -->
                     <h1 class="text-2xl font-semibold mb-4">Редактрование упражнения</h1>
@@ -56,18 +58,14 @@ function deleteItem(index) {
                             <TextInput
                                 id="title"
                                 type="title"
-                                class="mt-1 block w-full mb-4"
+                                class="mt-1 block w-full mb-4 p-2 outline-none border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 rounded-md shadow-sm"
                                 v-model="form.title"
                                 required
                             />
                             <InputError :message="form.errors.title" class="mt-2 mb-4" />
-                            <InputLabel for="description" value="Описание упражнения" />
-                            <textarea
-                                id="description"
-                                v-model="form.description"
-                                placeholder="Описание урока"
-                                class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                            ></textarea>
+                            <InputLabel for="description1" value="Описание упражнения" />
+                            <Wysiwyg id="description" :value="form.description" @update:value="newValue => form.description = newValue"/>
+                            
                             <InputError :message="form.errors.description" class="mt-2 mb-4" />
                         </form>
                         <div class="mt-4">
@@ -116,7 +114,7 @@ function deleteItem(index) {
                                     </div>
 
                                     <!-- Add Question-->
-                                    <div  class="mb-4 hover:bg-slate-200 inline-block bg-slate-100 border rounded-lg flex justify-between items-center px-4 py-2">
+                                    <div  class="mb-4 hover:bg-slate-200 inline-block bg-emerald-200 border rounded-lg flex justify-between items-center px-4 py-2">
                                         <div>
                                             <h3 class="block font-medium text-sm text-slate-700 mb-2">Добавить вопрос</h3>
                                             <div>
@@ -152,6 +150,7 @@ function deleteItem(index) {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                             </div>
 
