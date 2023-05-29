@@ -1,5 +1,4 @@
 <script setup>
-import Sidebar from '@/Components/Sidebar.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
@@ -13,7 +12,6 @@ const props = defineProps(['xample']);
 const form = useForm({
     title: props.xample.title,
     description: props.xample.description,
-    description1: '',
     items: props.xample.items,
 });
 
@@ -63,9 +61,9 @@ function deleteItem(index) {
                                 required
                             />
                             <InputError :message="form.errors.title" class="mt-2 mb-4" />
-                            <InputLabel for="description1" value="Описание упражнения" />
+
+                            <InputLabel for="description" value="Описание упражнения" />
                             <Wysiwyg id="description" :value="form.description" @update:value="newValue => form.description = newValue"/>
-                            
                             <InputError :message="form.errors.description" class="mt-2 mb-4" />
                         </form>
                         <div class="mt-4">
@@ -151,8 +149,7 @@ function deleteItem(index) {
                                     </div>
                                 </div>
                             </div>
-                            </div>
-                            </div>
-
+            </div>
+        </div>
     </AuthenticatedLayout>
 </template>
