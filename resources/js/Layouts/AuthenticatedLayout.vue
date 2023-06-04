@@ -51,6 +51,9 @@ const user = usePage().props.auth.user;
                                 <NavLink v-if="user.role=='teacher'" :href="route('teacher.users')" :active="route().current('teacher.users')">
                                     Ученики
                                 </NavLink>
+                                <NavLink v-if="user.role=='teacher'" :href="route('results.index')" :active="route().current('results.index')">
+                                    Результаты
+                                </NavLink>
                             </div>
                         </div>
 
@@ -145,6 +148,9 @@ const user = usePage().props.auth.user;
                         </ResponsiveNavLink>
                         <ResponsiveNavLink v-if="user.role=='teacher'" :href="route('teacher.users')" :active="route().current('teacher.users')">
                             Ученики
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink v-if="user.role=='teacher'" :href="route('results.index')" :active="route().current('results.index')">
+                            Результаты
                         </ResponsiveNavLink>
                     </div>
 

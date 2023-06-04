@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Xample;
+use App\Models\Sentence;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,7 +19,7 @@ class XampleController extends Controller
     {
         $userID = auth()->user()->id;
         return Inertia::render('Teacher/Xample/Index', [
-            'xamples' => Xample::where('teacher_id', '=', $userID)->latest()->paginate(10),
+            'xamples' => Xample::where('teacher_id', '=', $userID)->latest()->paginate(env('PERPAGE')),
         ]);
     }
 
@@ -27,7 +28,9 @@ class XampleController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Teacher/Xample/Create');
+        return Inertia::render('Teacher/Xample/Create', [
+            'sentences' => fn () => Sentence::paginate(env('PERPAGE')),
+        ]);
     }
 
     /**
@@ -59,7 +62,8 @@ class XampleController extends Controller
     public function edit(Xample $xample)
     {
         return Inertia::render('Teacher/Xample/Edit', [
-            'xample' => $xample
+            'xample' => $xample,
+            'sentences' => fn () => Sentence::paginate(env('PERPAGE')),
         ]);
     }
 

@@ -4,8 +4,8 @@ import {ref, onMounted } from 'vue'
 const props = defineProps(['links']);
 
 onMounted(() => {
- props.links[0].label = "<";
- props.links[props.links.length-1].label = ">";
+ props.links[0].label = "&lt;";
+ props.links[props.links.length-1].label = "&gt;";
 })
 
 </script>

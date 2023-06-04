@@ -30,4 +30,9 @@ class Xample extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function result(): BelongsTo
+    {
+        return $this->BelongsTo(Result::class);
+    }
 }

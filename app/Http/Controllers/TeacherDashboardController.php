@@ -14,8 +14,12 @@ class TeacherDashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $students = User::where('teacher_id', Auth::user()->id)->get();
-        $newstudents = User::where('teacher_id', Auth::user()->id)->where('group_id', '=', '')->withCount('xamples')->has('xamples', '=', 0)->get();
+        $students = User::where('teacher_id', Auth::user()->id)->simplePaginate(
+            $perPage = env('PERPAGE'), $columns = ['*'], $pageName = 'students'
+        );
+        $newstudents = User::where('teacher_id', Auth::user()->id)->where('group_id', '=', '')->withCount('xamples')->has('xamples', '=', 0)->simplePaginate(
+            $perPage = env('PERPAGE'), $columns = ['*'], $pageName = 'newstudents'
+        );
         
         return Inertia::render('Teacher/Dashboard', [
             'students' => $students,

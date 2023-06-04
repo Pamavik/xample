@@ -44,6 +44,8 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that should be cast.
      *
@@ -87,18 +89,15 @@ class User extends Authenticatable
         return $this->hasMany(Xample::class, 'teacher_id');
     }
 
+    public function result(): HasMany
+    {
+        return $this->hasMany(Result::class);
+    }
+
     public function group(): HasMany
     {
         return $this->hasMany(Group::class, 'teacher_id');
     }
-
-    /**
-     * The xample that belong to the user.
-     */
-    /**public function xamples(): BelongsToMany
-    {
-        return $this->belongsToMany(Xample::class, 'user_xample');
-    }*/
 
     /**
      * Get all of the xamples for the group.
@@ -106,5 +105,10 @@ class User extends Authenticatable
     public function xamples(): MorphToMany
     {
         return $this->morphToMany(Xample::class, 'xamplable');
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->surname;
     }
 }

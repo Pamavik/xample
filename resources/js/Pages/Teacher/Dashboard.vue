@@ -2,6 +2,7 @@
 import Sidebar from '@/Components/Sidebar.vue';
 import Toast from '@/Components/Toast.vue';
 import Panel from '@/Components/Panel.vue';
+import SimplePagination from '@/Components/SimplePagination.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage, Link } from '@inertiajs/vue3';
 
@@ -19,22 +20,11 @@ defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Кабинет</h2>
-        </template>
-
-                <div class="py-6">
+            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Кабинет</h1>
+        </template> 
+                <div class="pt-6">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <Panel />
-                    </div>
-                </div>
-
-                <div class="pb-6">
-                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                            <div class="p-6 text-gray-900">
-                                <p class="break-words">Ссылка на регистрацию ученика без группы: <strong>https://xample.ru/register/{{user.id}}</strong></p> 
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -42,10 +32,11 @@ defineProps({
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pb-3">
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight p-6">Новые ученики</h3>
-                            <div class="px-6 pb-3 text-gray-900" v-for="student in newstudents" 
+                            <div class="px-6 pb-3 text-gray-900" v-for="student in newstudents.data" 
                                 :key="student.id">
                                     <Link :href="route('teacher.user', {'user_id': student.id})">Ученик: <strong>{{student.name}} {{student.surname}}</strong></Link>
                             </div>
+                            <SimplePagination :prev_page_url="newstudents.prev_page_url" :next_page_url="newstudents.next_page_url" />
                         </div>
                     </div>
                 </div>
@@ -54,10 +45,11 @@ defineProps({
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pb-3">
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight p-6">Ученики</h3>
-                            <div class="px-6 pb-3 text-gray-900" v-for="student in students" 
+                            <div class="px-6 pb-3 text-gray-900" v-for="student in students.data" 
                                 :key="student.id">
                                     Ученик: <strong>{{student.name}} {{student.surname}}</strong> Рейтинг: <strong>{{student.rating}}</strong>
                             </div>
+                            <SimplePagination :prev_page_url="students.prev_page_url" :next_page_url="students.next_page_url" />
                         </div>
                     </div>
                 </div>
@@ -70,9 +62,7 @@ defineProps({
                         </Toast>
                     </div>
                 </div>
-                
-
-
+            
 
     </AuthenticatedLayout>
 </template>

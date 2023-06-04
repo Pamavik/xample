@@ -6,9 +6,11 @@ use App\Http\Controllers\TeacherAvailableController;
 use App\Http\Controllers\TeacherUsersController;
 use App\Http\Controllers\XampleController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\UserDashboardController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Models\Xample;
 use Inertia\Inertia;
 
 /*
@@ -54,6 +56,11 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('teacher')->name('teacher.')->group(function () {
     Route::resource('xamples', XampleController::class);
+    Route::get('xample/{xample_id}', function ($xample_id) {
+        return Inertia::render('Teacher/Xample', [
+            'xample' => Xample::find($xample_id)
+        ]);
+    })->name('xample');
     Route::resource('groups', GroupController::class);
     Route::get('users', [TeacherUsersController::class, 'index'])->name('users');
     Route::get('user', [TeacherUsersController::class, 'showUser'])->name('user');
@@ -64,6 +71,10 @@ Route::prefix('teacher')->name('teacher.')->group(function () {
 Route::middleware('auth', 'user-access:user')->group(function () {
     Route::get('/teacheravailable', [TeacherAvailableController::class, 'index'])->name('teacheravailable.index');
     Route::patch('/teacheravailable', [TeacherAvailableController::class, 'update'])->name('teacheravailable.update');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::resource('results', ResultController::class);
 });
 
 

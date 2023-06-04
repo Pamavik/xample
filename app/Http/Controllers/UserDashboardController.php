@@ -10,8 +10,19 @@ use App\Models\Group;
 use Inertia\Inertia;
 use Illuminate\Support\bigInteger;
 
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class UserDashboardController extends Controller
 {
+    public function paginate($items, $perPage = 15, $page = null, $options = [])
+    {
+        $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
+        $items = $items instanceof Collection ? $items : Collection::make($items);
+        return new LengthAwarePaginator($items->forPage($page, $perPage), $items->count(), $perPage, $page, $options);
+    }
+
     public function index(Request $request)
     {
         $user = User::find(auth()->user()->id);
@@ -31,10 +42,14 @@ class UserDashboardController extends Controller
         $xamples = $userxamples;
 
         $xamples = $xamples->unique();
+        $xamples = $this->paginate($xamples, env('PERPAGE'))->withPath('dashboard');
+        //dd($xamples);
 
+        $group = Group::find($user->group_id);
 
         return Inertia::render('Dashboard', [
             'userxamples' => $xamples,
+            'group' => $group
         ]);
     }
 
@@ -46,7 +61,8 @@ class UserDashboardController extends Controller
         //dd($xample);
         //$xample = Xample::first($id);
         return Inertia::render('Xample', [
-            'xample' => $xample
+            'xample' => $xample,
+            'student_id' => auth()->user()->id
         ]);
     }
 }

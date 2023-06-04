@@ -19,7 +19,7 @@ class GroupController extends Controller
     {
         $userID = auth()->user()->id;
         return Inertia::render('Teacher/Group/Index', [
-            'groups' => Group::where('teacher_id', '=', $userID)->latest()->paginate(2),
+            'groups' => Group::where('teacher_id', '=', $userID)->latest()->paginate(env('PERPAGE')),
         ]);
     }
 
@@ -39,9 +39,9 @@ class GroupController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:70',
         ]);
-        $request->user()->group()->create($validated);
+        $id = $request->user()->group()->create($validated)->id;
  
-        return redirect(route('teacher.groups.index'));
+        return redirect(route('teacher.groups.edit', $id));
     }
 
     /**
@@ -66,7 +66,9 @@ class GroupController extends Controller
         return Inertia::render('Teacher/Group/Edit', [
             'group' => $group,
             'groupxamples' => $xamples,
-            'xamples' => Xample::where('teacher_id', '=', $userID)->select('id', 'title')->latest()->get(),
+            'xamples' => Xample::where('teacher_id', '=', $userID)->select('id', 'title')->latest()->simplePaginate(
+                $perPage = env('PERPAGE'), $columns = ['*'], $pageName = 'xamples'
+            ),
         ]);
     }
 

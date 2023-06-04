@@ -21,7 +21,9 @@ class TeacherUsersController extends Controller
     {
         $userID = auth()->user()->id;
         return Inertia::render('Teacher/Users/Index', [
-            'users' => User::where('teacher_id', '=', $userID)->latest()->get(),
+            'users' => User::where('teacher_id', '=', $userID)->latest()->simplePaginate(
+                $perPage = env('PERPAGE'), $columns = ['*'], $pageName = 'users'
+            ),
         ]);
     }
 
@@ -33,7 +35,9 @@ class TeacherUsersController extends Controller
     {
         $userID = auth()->user()->id;
         $user = User::find($request->user_id);
-        $groups = User::find($userID)->group()->select('id', 'title')->get();
+        $groups = User::find($userID)->group()->select('id', 'title')->simplePaginate(
+            $perPage = env('PERPAGE'), $pageName = 'group'
+        )->withQueryString();
         $group = Group::find($user->group_id);
         if ($group == null) {
             $group = "Без группы";
@@ -50,7 +54,9 @@ class TeacherUsersController extends Controller
             'userxamples' => $xamples,
             'groups' => $groups,
             'group' => $group,
-            'xamples' => Xample::where('teacher_id', '=', $userID)->latest()->get(),
+            'xamples' => Xample::where('teacher_id', '=', $userID)->select('id', 'title')->latest()->simplePaginate(
+                $perPage = env('PERPAGE'), $columns = ['*'], $pageName = 'xamples'
+            )->withQueryString(),
         ]);
     }
 

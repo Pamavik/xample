@@ -141,8 +141,7 @@ export default {
             if (answer == a) {
                 this.$emit('successQuestion');
             }else {
-                //this.$emit('errorQuestion', 'Правильный ответ: '+this.answer, a);
-                this.$emit('errorQuestion', a, this.question);
+                this.$emit('errorQuestion', 'Правильный ответ: '+this.answer, a);
             }
             
         },

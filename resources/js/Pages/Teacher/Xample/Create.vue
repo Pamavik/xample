@@ -4,8 +4,11 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import Wysiwyg from '@/Components/Wysiwyg.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import SimplePagination from '@/Components/SimplePagination.vue';
+import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import { reactive } from 'vue'
+
+defineProps(['sentences']);
 
 const form = useForm({
     title: '',
@@ -31,7 +34,27 @@ function deleteItem(index) {
   form.items.splice(index, 1);
 }
 
+const panel = reactive({
+    visible: false,
+    top: 0
+});
 
+function showSentence(){  
+    router.reload({ only: ['sentences'], preserveState: true });
+    panel.visible = true;
+    panel.top = window.pageYOffset;
+}
+
+function selectSentence(sentence){  
+    newQuestion.question = sentence.question;
+    newQuestion.answer = sentence.answer;
+    newQuestion.words = sentence.words;
+    panel.visible = false;
+}
+
+function close(){
+    panel.visible = false;
+}
 </script>
 
 <template>
@@ -41,12 +64,14 @@ function deleteItem(index) {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Упражнения</h2>
+            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Упражнения</h1>
         </template>
-            <div class="max-w-7xl mx-auto sm:px-2">
+            <div class="max-w-7xl mx-auto sm:px-2 relative">
+            
                 <div class="m-6">
+                <Link :href="route('teacher.xamples.index')" class="my-6 text-emerald-500 hover:text-gray-800">Назад</Link>
                     <form @submit.prevent="form.post(route('teacher.xamples.store'), { onSuccess: () => form.reset() })">
-                    <div class="mb-4">
+                    <div class="my-4">
                         <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Создать</button>
                     </div>
                     <InputLabel for="title" value="Заголовок упражнения" />
@@ -143,11 +168,42 @@ function deleteItem(index) {
                                     <div class="mt-4">
                                         <button @click.stop="addQuestion" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Добавить вопрос</button>
                                     </div>
+                                    <div class="mt-4">
+                                        <button @click.stop="showSentence" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Выбрать из библиотеки</button>
+                                    </div>
                                  </div>
                             </div>
                         </div>
                     </div>
             </div>
+            <!-- Select Sentence-->
+            <div v-if="panel.visible" class="absolute block left-2 rounded-lg right-2 z-[1000] mt-0 border-none bg-white bg-clip-padding shadow-lg shadow-black/5 p-6 top-0"
+            :style="{ top: panel.top + 'px' }">
+                            <table v-if="sentences" class="border-collapse border border-emerald-500 table-auto w-full my-4">
+                                <thead>
+                                    <tr>
+                                    <th class="border-collapse border border-emerald-500 text-left p-2 bg-emerald-500 text-white">Фраза</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(sentence, index) in sentences.data"
+                                    :key="sentence.id">
+                                        <td class="border-collapse border border-emerald-500 p-2" @click="selectSentence(sentence)">
+                                            {{sentence.answer}}
+                                        </td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                            <SimplePagination  v-if="sentences" :prev_page_url="sentences.prev_page_url" :next_page_url="sentences.next_page_url" />
+                            <div class="absolute right-0 top-0">
+                                <button @click="close()" class="font-black block rounded-lg cursor-pointer text-emerald-500 hover:bg-emerald-500 hover:text-white h-6 flex items-center p-4">
+                                    X
+                                </button>
+                            </div>
+                            
+                        </div>
         </div>
+        <div v-if="panel.visible" class="fixed top-0 left-0 bottom-0 right-0 z-50 bg-gray-500 opacity-50"></div>
     </AuthenticatedLayout>
 </template>

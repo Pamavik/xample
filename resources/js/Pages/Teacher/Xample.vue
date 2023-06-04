@@ -4,9 +4,10 @@ import Example from '@/Components/Examples/Example.vue';
 import ExampleStart from '@/Components/Examples/ExampleStart.vue';
 import ExampleMessage from '@/Components/Examples/ExampleMessage.vue';
 import ExampleFinish from '@/Components/Examples/ExampleFinish.vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { ref, computed, onMounted } from 'vue';
-const props = defineProps(['student_id', 'xample']);
+const props = defineProps(['user', 'xample']);
+
 const questionsMax = props.xample.items.length;
 const state = ref('start');
 const question = ref(0);
@@ -15,14 +16,6 @@ const message = ref({
     text: 'OK'
 });
 
-const form = useForm({
-    xample_id: props.xample.id,
-    user_id: props.student_id,
-    teacher_id: props.xample.teacher_id,
-    questions_count: props.xample.items.length,
-    errors_count: 0,
-    errors_list: []
-});
 const stats = ref({
     success: 0,
     error: 0
@@ -46,7 +39,7 @@ function nextQuestion() {
         state.value='question'
     }
     else{
-        state.value='finish';
+        state.value='finish'
     }
 }
 function successQuestion() {
@@ -55,17 +48,15 @@ function successQuestion() {
     message.value.text="Всё верно, молодец!";
     stats.value.success++;
 }
-function errorQuestion(answer, question) {
-    form.errors_list.push({question: question, answer: answer});
-    form.errors_count++;
+function errorQuestion(msg, answer) {
     state.value='message';
     message.value.type="red";
-    message.value.text = "Неправильный ответ: " + answer;
+    message.value.text=msg;
     stats.value.error++;
 }
 
 function endXample() {
-    router.post(route('results.store'), form);
+    router.get('/teacher/xamples');
 }
 
 const TestDone = computed(() => stats.value.success + stats.value.error);
@@ -82,7 +73,7 @@ const ProgressStyle = computed(() => TestDone.value / questionsMax * 100);
 
         <div class="my-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                 <Link :href="route('dashboard')" class="my-6 text-emerald-500 hover:text-gray-800">Назад</Link>
+            <Link :href="route('teacher.xamples.index')" class="mb-6 text-emerald-500 hover:text-gray-800">Назад</Link>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
                     <h1 class="text-2xl font-semibold mb-2 lg:mb-0">{{props.xample.title}}</h1>
                     <div class="w-full bg-white border box-content rounded-lg h-4 my-4">

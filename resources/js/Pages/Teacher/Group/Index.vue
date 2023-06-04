@@ -3,6 +3,7 @@ import Sidebar from '@/Components/Sidebar.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Pagination from "@/Components/Pagination.vue";
 import ModalDialog  from "@/Components/ModalDialog.vue";
+import Panel from '@/Components/Panel.vue';
 import { Head, Link, router  } from '@inertiajs/vue3';
 import { ref} from 'vue';
 defineProps(['groups']);
@@ -34,15 +35,20 @@ const deleteGroup = (group) => {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Группы</h2>
+            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Группы</h1>
         </template>
-            <div class="max-w-7xl mx-auto sm:px-2">
-                <div class="m-6">
-                    <Link :href="route('teacher.groups.create')" as="button" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Создать упражнение</Link>
+            <div class="pt-6">
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <Panel />
+                    </div>
                 </div>
-                <div class="max-w-7xl px-6">
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="my-6">
+                    <Link :href="route('teacher.groups.create')" as="button" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Создать группу</Link>
+                </div>
+                <div>
                     <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                        <p v-if="groups.data == 0" class="mb-4">У вас ещё нет упражнений</p>
+                        <p v-if="groups.data == 0" class="mb-4">У вас ещё нет групп</p>
                         <div v-else class="mr-4 mb-4 hover:bg-slate-200 inline-block bg-slate-100 border rounded-lg flex justify-between items-center px-4 py-2"
                             v-for="(group, index) in groups.data"
                             :key="group.id"
