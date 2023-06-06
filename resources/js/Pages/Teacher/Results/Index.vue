@@ -1,9 +1,10 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Pagination from "@/Components/Pagination.vue";
+import Toast from '@/Components/Toast.vue';
 import ModalDialog  from "@/Components/ModalDialog.vue";
 import Panel from '@/Components/Panel.vue';
-import { Head, Link, router  } from '@inertiajs/vue3';
+import { Head, Link, router, useForm  } from '@inertiajs/vue3';
 import { reactive} from 'vue';
 defineProps(['results']);
 
@@ -12,6 +13,14 @@ const panel = reactive({
     list: [],
     top: 0
 });
+
+function showUserResults(user_id) {
+    router.get(route('results.index'),{ 'user_id': user_id});
+}
+
+function showXampleResults(xample_id) {
+    router.get(route('results.index'),{ 'xample_id': xample_id});
+}
 
 function showErrors(errors_list, event){   
     panel.list = errors_list;
@@ -38,10 +47,19 @@ function close(){
                         <Panel />
                     </div>
                 </div>
+
+            <div class="my-2">
+                    <div class="container mx-auto sm:px-6 lg:px-8">
+                        <Toast toast="results">
+                            <p>Здесь можно посмотреть результаты индивидуально по упражнениям или ученикам.</p>
+                            <p>При наличии ошибок при выполнении их можно посмотреть и прроанализировать.</p>
+                        </Toast>
+                    </div>
+                </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6 relative">
                     <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                        <p v-if="results.data == 0" class="mb-4">У вас ещё нет упражнений</p>
-
+                        <Link :href="route('results.index')" class="mb-8 text-emerald-500 hover:text-gray-800">Показать все результаты</Link>
+                        <p v-if="results.data == 0" class="mb-4">Ваши ученики ещё не выполнили ни одного задания</p>
                         <table v-else class="border-collapse border border-emerald-500 table-auto w-full">
                             <thead>
                                 <tr>
@@ -54,21 +72,21 @@ function close(){
                             <tbody>
                                 <tr v-for="(result, index) in results.data"
                                     :key="result.id">
-                                    <td class="border-collapse border border-emerald-500 p-2">
+                                    <td class="border-collapse border border-emerald-500 p-2 hover:bg-gray-200 cursor-pointer" @click="showXampleResults(result.xample.id)">
                                         {{result.xample.title}}
                                     </td>
-                                    <td class="border-collapse border border-emerald-500 p-2">
+                                    <td class="border-collapse border border-emerald-500 p-2 hover:bg-gray-200 cursor-pointer" @click="showUserResults(result.user.id)">
                                         {{result.user.full_name}}
                                     </td>
-                                    <td class="border-collapse border border-emerald-500 p-2">
+                                    <td class="border-collapse border border-emerald-500 p-2 hover:bg-gray-200">
                                         <span v-if="result.errors_count == 0">Нет</span>
-                                        <button v-else-if="result.errors_count == 1 " @click="showErrors(result.errors_list, $event)" class="block cursor-pointer text-emerald-500 h-6">
+                                        <button v-else-if="result.errors_count == 1 " @click="showErrors(result.errors_list, $event)" class="block cursor-pointer text-emerald-500 h-6 hover:text-gray-800">
                                         {{result.errors_count}} ошибка
                                         </button>
-                                        <button v-else-if="result.errors_count > 1 && result.errors_count < 5" @click="showErrors(result.errors_list, $event)" class="block cursor-pointer text-emerald-500 h-6">
+                                        <button v-else-if="result.errors_count > 1 && result.errors_count < 5" @click="showErrors(result.errors_list, $event)" class="block cursor-pointer text-emerald-500 h-6 hover:text-gray-800">
                                         {{result.errors_count}} ошибки
                                         </button>
-                                        <button v-else @click="showErrors(result.errors_list, $event)" class="block cursor-pointer text-emerald-500 h-6">
+                                        <button v-else @click="showErrors(result.errors_list, $event)" class="block cursor-pointer text-emerald-500 h-6 hover:text-gray-800">
                                         {{result.errors_count}} ошибок
                                         </button>
                                     </td>

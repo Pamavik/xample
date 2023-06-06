@@ -7,6 +7,7 @@ import Wysiwyg from '@/Components/Wysiwyg.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
 import SimplePagination from '@/Components/SimplePagination.vue';
 import { ref, reactive } from 'vue';
+import _ from 'lodash';
 
 const props = defineProps(['xample', 'sentences']);
 
@@ -21,6 +22,12 @@ const newQuestion = reactive({
     answer: 'A',
     words: 'W',
 })
+
+const term = ref('');
+
+const search = _.throttle(function() {
+        router.get(window.location.href, {term: term.value}, { preserveState: true, preserveScroll: true, only: ['sentences'], replace: true });
+}, 200);
 
 function addQuestion() {
   form.items.push({question: newQuestion.question,
@@ -177,6 +184,15 @@ function close(){
             <!-- Select Sentence-->
             <div v-if="panel.visible" class="absolute block left-2 rounded-lg right-2 z-[1000] mt-0 border-none bg-white bg-clip-padding shadow-lg shadow-black/5 p-6 top-0"
             :style="{ top: panel.top + 'px' }">
+                            <InputLabel for="term" value="Поиск" />
+
+                            <TextInput
+                                id="term"
+                                type="text"
+                                class="mt-1 block w-full mb-4 p-2 outline-none border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 rounded-md shadow-sm"
+                                v-model="term"
+                                @keyup="search"
+                            />
                             <table v-if="sentences" class="border-collapse border border-emerald-500 table-auto w-full my-4">
                                 <thead>
                                     <tr>
@@ -186,7 +202,7 @@ function close(){
                                 <tbody>
                                     <tr v-for="(sentence, index) in sentences.data"
                                     :key="sentence.id">
-                                        <td class="border-collapse border border-emerald-500 p-2" @click="selectSentence(sentence)">
+                                        <td class="border-collapse border border-emerald-500 p-2 cursor-pointer" @click="selectSentence(sentence)">
                                             {{sentence.answer}}
                                         </td>
                                     </tr>

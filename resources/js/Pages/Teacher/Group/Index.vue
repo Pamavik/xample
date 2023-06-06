@@ -43,11 +43,11 @@ const deleteGroup = (group) => {
                     </div>
                 </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="my-6">
+                <div class="p-6">
                     <Link :href="route('teacher.groups.create')" as="button" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Создать группу</Link>
                 </div>
                 <div>
-                    <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
+                    <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mb-6">
                         <p v-if="groups.data == 0" class="mb-4">У вас ещё нет групп</p>
                         <div v-else class="mr-4 mb-4 hover:bg-slate-200 inline-block bg-slate-100 border rounded-lg flex justify-between items-center px-4 py-2"
                             v-for="(group, index) in groups.data"
@@ -61,10 +61,13 @@ const deleteGroup = (group) => {
                                 X
                             </button>
                         </div>
+                        <pagination class="mt-6" :links="groups.links" />
                     </div>
-                    <pagination class="mt-6" :links="groups.links" />
+                    
                 </div>
+                
             </div>
+            
         <ModalDialog v-if="displayModal" question="Вы действительно хотите удалить?" :onConfirm="confirm" :onCancel="cancel" />
     </AuthenticatedLayout>
 </template>

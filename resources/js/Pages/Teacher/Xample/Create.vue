@@ -6,7 +6,8 @@ import TextInput from '@/Components/TextInput.vue';
 import Wysiwyg from '@/Components/Wysiwyg.vue';
 import SimplePagination from '@/Components/SimplePagination.vue';
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue';
+import _ from 'lodash';
 
 defineProps(['sentences']);
 
@@ -21,7 +22,15 @@ const newQuestion = reactive({
     question: 'Q', 
     answer: 'A',
     words: 'W',
-})
+});
+
+const term = ref('');
+
+const search = _.throttle(function() {
+
+        router.get(route('teacher.xamples.create'), {term: term.value}, { preserveState: true, preserveScroll: true });
+
+}, 200);
 
 function addQuestion() {
   form.items.push({question: newQuestion.question,
@@ -78,7 +87,7 @@ function close(){
 
                     <TextInput
                         id="title"
-                        type="title"
+                        type="text"
                         class="mt-1 block w-full mb-4 p-2 outline-none border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 rounded-md shadow-sm"
                         v-model="form.title"
                         required
@@ -179,6 +188,15 @@ function close(){
             <!-- Select Sentence-->
             <div v-if="panel.visible" class="absolute block left-2 rounded-lg right-2 z-[1000] mt-0 border-none bg-white bg-clip-padding shadow-lg shadow-black/5 p-6 top-0"
             :style="{ top: panel.top + 'px' }">
+                            <InputLabel for="term" value="Поиск" />
+
+                            <TextInput
+                                id="term"
+                                type="text"
+                                class="mt-1 block w-full mb-4 p-2 outline-none border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500 rounded-md shadow-sm"
+                                v-model="term"
+                                @keyup="search"
+                            />
                             <table v-if="sentences" class="border-collapse border border-emerald-500 table-auto w-full my-4">
                                 <thead>
                                     <tr>
@@ -188,7 +206,7 @@ function close(){
                                 <tbody>
                                     <tr v-for="(sentence, index) in sentences.data"
                                     :key="sentence.id">
-                                        <td class="border-collapse border border-emerald-500 p-2" @click="selectSentence(sentence)">
+                                        <td class="border-collapse border border-emerald-500 p-2 cursor-pointer" @click="selectSentence(sentence)">
                                             {{sentence.answer}}
                                         </td>
                                     </tr>

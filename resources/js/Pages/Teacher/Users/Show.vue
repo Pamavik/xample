@@ -26,15 +26,17 @@ const group_form = useForm({
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">Ученик</h1>
         </template>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 px-6 pt-6">
+                <Link :href="route('teacher.users')" class="text-emerald-500 hover:text-gray-800">Назад</Link>
+            </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6">
-            <Link :href="route('teacher.users')" class="mb-6 text-emerald-500 hover:text-gray-800">Назад</Link>
-                <div class="w-full bg-white border rounded-lg px-6 py-4 my-4">
+                <div class="w-full bg-white border sm:rounded-lg px-6 py-4">
                     <p>{{user.name}} {{user.surname}}</p>
                     <p>Группа: {{group}}</p>
                 </div>
                 <form @submit.prevent="group_form.put(route('teacher.updateusergroup'), { onSuccess: () => group_form.reset() })">
                     
-                    <div class="w-full bg-white border rounded-lg pt-4 my-4">
+                    <div class="w-full bg-white border sm:rounded-lg pt-4 my-4">
                         <h3 class="block font-medium text-slate-700 px-6 mb-4">Установленная группа</h3>
                         <div v-if="groups.current_page == 1" class="mb-4 mx-6 hover:bg-slate-200 inline-block bg-slate-100 border rounded-lg flex justify-start items-center px-4 py-2">
                             <label class="flex items-center">
@@ -61,7 +63,7 @@ const group_form = useForm({
                 </form>    
                 <form @submit.prevent="form.put(route('teacher.updateuser'), { onSuccess: () => form.reset() })">
                     
-                    <div class="w-full bg-white border rounded-lg pt-4 my-4">
+                    <div class="w-full bg-white border sm:rounded-lg pt-4 my-4">
                         <h3 class="block font-medium text-slate-700 px-6 mb-4">Назначенные упражнения</h3>
                         <div  class="mb-4 mx-6 hover:bg-slate-200 inline-block bg-slate-100 border rounded-lg flex justify-start items-center px-4 py-2"
                             v-for="(xample, index) in xamples.data"

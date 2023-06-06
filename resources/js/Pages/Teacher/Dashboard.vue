@@ -22,13 +22,22 @@ defineProps({
         <template #header>
             <h1 class="font-semibold text-xl text-gray-800 leading-tight">Кабинет</h1>
         </template> 
-                <div class="pt-6">
+                <div class="my-6">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <Panel />
                     </div>
                 </div>
 
-                <div class="pb-6" v-if="newstudents.length != 0">
+                <div class="my-6">
+                    <div class="container mx-auto sm:px-6 lg:px-8">
+                        <Toast toast="welcome">
+                            <p>Создайте упражнения и группы. Отправьте ссылку для регистрации учеников. Установите ученикам группы или назначьте им упражнения индивидуально. </p>
+                            <p>Следите в результах за успехами учеников.</p>
+                        </Toast>
+                    </div>
+                </div>
+
+                <div class="pb-6" v-if="newstudents.length > 0">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pb-3">
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight p-6">Новые ученики</h3>

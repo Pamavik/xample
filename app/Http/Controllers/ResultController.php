@@ -11,10 +11,17 @@ class ResultController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $userID = auth()->user()->id;
-        $results = Result::where('teacher_id', '=', $userID)->with('xample:id,title', 'user:id,name,surname')->latest()->paginate(env('PERPAGE'));
+        $user_id = $request->user_id;
+        $xample_id = $request->xample_id;
+        $results = Result::where('teacher_id', '=', $userID)->with('xample:id,title', 'user:id,name,surname')->latest()->when($request->has('user_id'), function ($query) use ($userID, $user_id){
+            $query->where('user_id', '=', $user_id);
+        })->when($request->has('xample_id'), function ($query) use ($userID, $xample_id){
+            $query->where('xample_id', '=', $xample_id);
+        })->paginate(env('PERPAGE'))->withQueryString();
+//dd($results);
         return Inertia::render('Teacher/Results/Index', [
             'results' => $results,
         ]);

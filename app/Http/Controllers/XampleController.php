@@ -26,10 +26,13 @@ class XampleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $term = $request->term;
         return Inertia::render('Teacher/Xample/Create', [
-            'sentences' => fn () => Sentence::paginate(env('PERPAGE')),
+            'sentences' => Sentence::when($request->has('term'), function ($query) use ($term){
+                $query->where('answer', 'LIKE', '%'.$term.'%');
+            })->paginate(env('PERPAGE')),
         ]);
     }
 
@@ -44,6 +47,11 @@ class XampleController extends Controller
             'items' => 'required',
         ]);
         $request->user()->xample()->create($validated);
+
+        foreach ($request->items as $item) {
+            $sentence = Sentence::firstOrCreate(['answer' => $item['answer']],
+            ['question' => $item['question'], 'words' => $item['words']]);
+        }
  
         return redirect(route('teacher.xamples.index'));
     }
@@ -59,11 +67,14 @@ class XampleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Xample $xample)
+    public function edit(Request $request, Xample $xample)
     {
+        $term = $request->term;
         return Inertia::render('Teacher/Xample/Edit', [
             'xample' => $xample,
-            'sentences' => fn () => Sentence::paginate(env('PERPAGE')),
+            'sentences' => fn () => Sentence::when($request->has('term'), function ($query) use ($term){
+                $query->where('answer', 'LIKE', '%'.$term.'%');
+            })->paginate(env('PERPAGE')),
         ]);
     }
 
@@ -81,6 +92,10 @@ class XampleController extends Controller
         ]);
  
         $xample->update($validated);
+        foreach ($request->items as $item) {
+            $sentence = Sentence::firstOrCreate(['answer' => $item['answer']],
+            ['question' => $item['question'], 'words' => $item['words']]);
+        }
  
         return redirect(route('teacher.xamples.index'));
     }

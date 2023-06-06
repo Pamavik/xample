@@ -68,14 +68,14 @@ const ProgressStyle = computed(() => TestDone.value / questionsMax * 100);
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Упражнение</h2>
+            <h1 class="font-semibold text-xl text-gray-800 leading-tight">Упражнение</h1>
         </template>
 
         <div class="my-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <Link :href="route('teacher.xamples.index')" class="mb-6 text-emerald-500 hover:text-gray-800">Назад</Link>
+            <Link :href="route('teacher.xamples.index')" class="p-6 sm:p-0 mb-6 text-emerald-500 hover:text-gray-800">Назад</Link>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
-                    <h1 class="text-2xl font-semibold mb-2 lg:mb-0">{{props.xample.title}}</h1>
+                    <h2 class="text-2xl font-semibold mb-2 lg:mb-0">{{props.xample.title}}</h2>
                     <div class="w-full bg-white border box-content rounded-lg h-4 my-4">
                         <div :style="{ width: ProgressStyle + '%' }" class="bg-emerald-800 h-4 rounded-lg">
 
