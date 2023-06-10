@@ -24,7 +24,7 @@ const tiltRef = ref(null);
 
 onMounted(() => {
     VanillaTilt.init(tiltRef.value,{
-		max: 15,
+		max: 25,
 		speed: 300,
         gyroscope: true,
 	});
@@ -79,8 +79,8 @@ onMounted(() => {
                 </svg>
             </div>
             <div class="parallax-1">
-                <h1 class="text-center my-6 text-gray-500 dark:text-gray-400 text-4xl leading-relaxed">
-                <span class="font-bold text-6xl text-emerald-500 uppercase">Xample.ru</span>
+                <h1 class="text-center my-6 text-gray-500 dark:text-gray-400 text-xl lg:text-4xl leading-relaxed">
+                <span class="font-bold text-4xl lg:text-6xl text-emerald-500 uppercase">Xample.ru</span>
                 <br>Бесплатный тренажер для обучения иностранных языков</h1>
             </div>
 
