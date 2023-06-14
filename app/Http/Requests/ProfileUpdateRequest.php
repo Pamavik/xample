@@ -19,9 +19,23 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['string', 'max:255'],
             'surname' => ['string', 'max:255'],
             'teacher_id' => ['ulid'],
-            'group_id' => ['ulid'],
             'role' => ['in:0,1'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $input = array_map('trim', $this->all());
+        if ($input['teacher_id'] == '') {
+            unset($input['teacher_id']);
+        }
+        // replace old input with new input
+        $this->replace($input);
     }
 }

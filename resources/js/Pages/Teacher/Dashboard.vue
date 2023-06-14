@@ -31,8 +31,10 @@ defineProps({
                 <div class="my-6">
                     <div class="container mx-auto sm:px-6 lg:px-8">
                         <Toast toast="welcome">
-                            <p>Создайте упражнения и группы. Отправьте ссылку для регистрации учеников. Установите ученикам группы или назначьте им упражнения индивидуально. </p>
-                            <p>Следите в результах за успехами учеников.</p>
+                            <p>Шаг 1. Создайте упражнения и группы.</p>
+                            <p>Шаг 2. Отправьте ссылку для регистрации ученикам.</p>
+                            <p>Шаг 3. Установите ученикам группы или назначьте им упражнения индивидуально.</p>
+                            <p>Шаг 4. Следите в результах за успехами учеников.</p>
                         </Toast>
                     </div>
                 </div>
@@ -54,6 +56,7 @@ defineProps({
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg pb-3">
                             <h3 class="font-semibold text-xl text-gray-800 leading-tight p-6">Ученики</h3>
+                            <div class="px-6 pb-3 text-gray-900" v-if="students.data == 0">У вас ещё нет учеников</div>
                             <div class="px-6 pb-3 text-gray-900" v-for="student in students.data" 
                                 :key="student.id">
                                     Ученик: <strong>{{student.name}} {{student.surname}}</strong> Рейтинг: <strong>{{student.rating}}</strong>
@@ -62,16 +65,5 @@ defineProps({
                         </div>
                     </div>
                 </div>
-
-                <div class="pb-6">
-                    <div class="container mx-auto sm:px-6 lg:px-8">
-                        <Toast toast="toast1">
-                            <p>Мы предоставляем инструменты, которые позволяют репетиторам создавать упражнения для изучения иностранных языков, которые могут быть использованы их учениками. Мы понимаем, что каждый ученик уникален и имеет свои индивидуальные потребности в изучении языков, поэтому мы даем возможность нашим репетиторам создавать упражнения, которые могут соответствовать их потребностям.</p>
-                            <p>Наш сервис предлагает репетиторам различные инструменты, которые помогают создавать уникальные и интересные упражнения для изучения иностранных языков.</p>
-                        </Toast>
-                    </div>
-                </div>
-            
-
     </AuthenticatedLayout>
 </template>

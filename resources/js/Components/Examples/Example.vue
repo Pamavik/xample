@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="w-full bg-white border rounded-lg px-4 pt-4 my-4 flex flex-wrap">
-            <span v-for="(word, index) in shuffledWords" :key="index" @click="addword(word)"
+            <span v-for="(word, index) in wordList" :key="index" @click="addword(word)"
                 class="cursor-pointer mr-4 mb-4 hover:bg-gray-200 inline-block bg-gray-100 border rounded-lg flex justify-between items-center px-4 py-2">
                 {{word}}
             </span>
@@ -106,10 +106,10 @@ export default {
             });
             str = arr.join(' . ');
 
-            str = str.replace(' ?', '?');
-            str = str.replace(' !', '!');
-            str = str.replace(' .', '.');
-            str = str.replace(' ,', ',');
+            str = str.replace(/ \?/g, '?');
+            str = str.replace(/ \!/g, '!');
+            str = str.replace(/ \./g, '.');
+            str = str.replace(/ ,/g, ',');
             return str;
         }
     },

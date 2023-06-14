@@ -52,13 +52,12 @@ function close(){
                     <div class="container mx-auto sm:px-6 lg:px-8">
                         <Toast toast="results">
                             <p>Здесь можно посмотреть результаты индивидуально по упражнениям или ученикам.</p>
-                            <p>При наличии ошибок при выполнении их можно посмотреть и прроанализировать.</p>
                         </Toast>
                     </div>
                 </div>
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-6 relative">
                     <div class="bg-white overflow-hidden shadow-sm rounded-lg p-6">
-                        <Link :href="route('results.index')" class="mb-8 text-emerald-500 hover:text-gray-800">Показать все результаты</Link>
+                        <div v-if="results.data != 0"><Link :href="route('results.index')" class="mb-8 text-emerald-500 hover:text-gray-800">Показать все результаты</Link></div>
                         <p v-if="results.data == 0" class="mb-4">Ваши ученики ещё не выполнили ни одного задания</p>
                         <table v-else class="border-collapse border border-emerald-500 table-auto w-full">
                             <thead>

@@ -66,7 +66,7 @@ const form = useForm({
                 <InputError class="mt-2" :message="form.errors.surname" />
             </div>
 
-            <div v-if="user.role=='user'">
+            <div v-show="user.role=='user'">
                 <InputLabel for="teacher_id" value="Идентификатор учителя" />
 
                 <TextInput
@@ -74,7 +74,6 @@ const form = useForm({
                     type="text"
                     class="mt-1 block w-full"
                     v-model="form.teacher_id"
-                    required
                     autocomplete="teacher_id"
                 />
 

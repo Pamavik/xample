@@ -19,9 +19,9 @@ const form = useForm({
 
 
 const newQuestion = reactive({ 
-    question: 'Q', 
-    answer: 'A',
-    words: 'W',
+    question: '', 
+    answer: '',
+    words: '',
 });
 
 const term = ref('');
@@ -100,9 +100,9 @@ function close(){
                 </form>
                     <div class="mt-4">
                         <InputError :message="form.errors.items" class="mt-2 mb-4" />
-                        <h3 class="block font-medium text-sm text-slate-700">Вопросы:</h3>
+                        <h3 class="block font-medium text-sm text-gray-700">Вопросы:</h3>
                         <div class="w-full bg-white border rounded-lg px-4 pt-4 my-4">
-                            <div  class="mb-4 hover:bg-slate-200 inline-block bg-slate-100 border rounded-lg flex justify-between items-center px-4 py-2"
+                            <div  class="mb-4 hover:bg-gray-200 inline-block bg-gray-100 border rounded-lg flex justify-between items-center px-4 py-2"
                                 v-for="(item, index) in form.items"
                                 :key="index"
                             > 
@@ -136,7 +136,7 @@ function close(){
                                     </div>
                                 </div>
                                 <div class="self-start">
-                                    <button @click="deleteItem(index)" class="font-black block cursor-pointer text-emerald-400 hover:bg-slate-200 h-6 flex items-center">
+                                    <button @click="deleteItem(index)" class="font-black block cursor-pointer text-emerald-400 hover:bg-gray-200 h-6 flex items-center">
                                         X
                                     </button>
                                 </div>
@@ -144,9 +144,9 @@ function close(){
                             </div>
 
                             <!-- Add Question-->
-                            <div  class="mb-4 hover:bg-slate-200 inline-block bg-emerald-200 border rounded-lg flex justify-between items-center px-4 py-2">
-                                <div>
-                                    <h3 class="block font-medium text-sm text-slate-700 mb-2">Добавить вопрос</h3>
+                            <div  class="mb-4 hover:bg-gray-200 inline-block bg-gray-300 border rounded-lg flex justify-between items-center px-4 py-2">
+                                <div class="w-full">
+                                    <h3 class="block font-medium text-sm text-gray-700 mb-2">Добавить вопрос</h3>
                                     <div>
                                         <InputLabel for="newquestion" value="Вопрос" />
                                         <TextInput
@@ -178,7 +178,7 @@ function close(){
                                         <button @click.stop="addQuestion" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Добавить вопрос</button>
                                     </div>
                                     <div class="mt-4">
-                                        <button @click.stop="showSentence" class="bg-emerald-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Выбрать из библиотеки</button>
+                                        <button @click.stop="showSentence" class="bg-gray-500 hover:bg-emerald-600 focus:outline-none rounded-lg px-6 py-2 text-white font-semibold shadow">Выбрать из библиотеки</button>
                                     </div>
                                  </div>
                             </div>
@@ -200,7 +200,7 @@ function close(){
                             <table v-if="sentences" class="border-collapse border border-emerald-500 table-auto w-full my-4">
                                 <thead>
                                     <tr>
-                                    <th class="border-collapse border border-emerald-500 text-left p-2 bg-emerald-500 text-white">Фраза</th>
+                                    <th class="border-collapse border border-emerald-500 text-left p-2 bg-emerald-500 text-white">Фраза ответа</th>
                                     </tr>
                                 </thead>
                                 <tbody>

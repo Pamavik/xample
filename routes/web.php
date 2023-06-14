@@ -8,6 +8,7 @@ use App\Http\Controllers\XampleController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\UserDashboardController;
+use App\Http\Controllers\AnaliticController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Models\Xample;
@@ -32,6 +33,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/analitic', [AnaliticController::class, 'index']);
 
 Route::get('/dashboard', [UserDashboardController::class, 'index'])
 ->middleware(['auth', 'verified', 'user-access:user', 'teacher-available'])->name('dashboard');

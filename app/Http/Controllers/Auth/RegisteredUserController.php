@@ -44,7 +44,7 @@ class RegisteredUserController extends Controller
             'surname' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'invite' => ['ulid'],
+            //'invite' => ['ulid'],
         ]);
 
         $teacher = User::find($request->invite);

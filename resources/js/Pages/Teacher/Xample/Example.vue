@@ -106,10 +106,10 @@ export default {
             });
             str = arr.join(' . ');
 
-            str = str.replace(' ?', '?');
-            str = str.replace(' !', '!');
-            str = str.replace(' .', '.');
-            str = str.replace(' ,', ',');
+            str = str.replace(/ \?/g, '?');
+            str = str.replace(/ \!/g, '!');
+            str = str.replace(/ \./g, '.');
+            str = str.replace(/ ,/g, ',');
             return str;
         }
     },

@@ -1,13 +1,16 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Example from '@/Components/Examples/Example.vue';
 import ExampleStart from '@/Components/Examples/ExampleStart.vue';
 import ExampleMessage from '@/Components/Examples/ExampleMessage.vue';
 import ExampleFinish from '@/Components/Examples/ExampleFinish.vue';
-import { Head, Link, router, useForm } from '@inertiajs/vue3';
-import { ref, computed, onMounted } from 'vue';
-const props = defineProps(['student_id', 'xample']);
-const questionsMax = props.xample.items.length;
+import { ref, reactive, computed, onMounted } from 'vue';
+const xample = reactive({
+    title: 'Пример упражнения',
+    description: 'Составьте из слов преревод фразы',
+    items: [ { "question": "Кошки любят молоко.", "answer": "Cats like milk.", "words": "cats like milk want water ." }, { "question": "Я живу в Лондоне.", "answer": "I live in London.", "words": "I live in London lived at me ." }, { "question": "Я читаю книгу.", "answer": "I read a book.", "words": "I read a book books am reading ." }, { "question": "Мы работаем в Нью-Йорке", "answer": "We work in New York.", "words": "we work in New York you London worked ." }, { "question": "Я играю в мяч", "answer": "I play a ball", "words": "I play plays played a an ball we" } ]
+
+});
+const questionsMax = xample.items.length;
 const state = ref('start');
 const question = ref(0);
 const message = ref({
@@ -15,26 +18,18 @@ const message = ref({
     text: 'OK'
 });
 
-const form = useForm({
-    xample_id: props.xample.id,
-    user_id: props.student_id,
-    teacher_id: props.xample.teacher_id,
-    questions_count: props.xample.items.length,
-    errors_count: 0,
-    errors_list: []
-});
 const stats = ref({
     success: 0,
     error: 0
 });
 
 onMounted(() => {
-    let array = props.xample.items;
+    let array = xample.items;
     for (let i = array.length - 1; i > 0; i--) {
         let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
-    props.xample.items.question = array;
+    xample.items.question = array;
 })
 
 function startXample() {
@@ -42,7 +37,7 @@ function startXample() {
 }
 function nextQuestion() {
     question.value++
-    if(question.value < props.xample.items.length) {
+    if(question.value < xample.items.length) {
         state.value='question'
     }
     else{
@@ -56,8 +51,6 @@ function successQuestion() {
     stats.value.success++;
 }
 function errorQuestion(answer, question) {
-    form.errors_list.push({question: question, answer: answer});
-    form.errors_count++;
     state.value='message';
     message.value.type="red";
     message.value.text = "Неправильный ответ: " + answer;
@@ -65,7 +58,16 @@ function errorQuestion(answer, question) {
 }
 
 function endXample() {
-    router.post(route('results.store'), form);
+    state.value='start';
+    stats.value.error = 0;
+    stats.value.success = 0;
+    question.value = 0;
+    let array = xample.items;
+    for (let i = array.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    xample.items.question = array;
 }
 
 const TestDone = computed(() => stats.value.success + stats.value.error);
@@ -73,18 +75,10 @@ const ProgressStyle = computed(() => TestDone.value / questionsMax * 100);
 </script>
 
 <template>
-    <Head title="Упражнение" />
-
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Упражнение</h2>
-        </template>
-{{xample}}
         <div class="my-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                 <Link :href="route('dashboard')" class="my-6 text-emerald-500 hover:text-gray-800">Назад</Link>
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mt-6">
-                    <h1 class="text-2xl font-semibold mb-2 lg:mb-0">{{props.xample.title}}</h1>
+                    <h1 class="text-2xl font-semibold text-gray-800 mb-2 lg:mb-0">{{xample.title}}</h1>
                     <div class="w-full bg-white border box-content rounded-lg h-4 my-4">
                         <div :style="{ width: ProgressStyle + '%' }" class="bg-emerald-800 h-4 rounded-lg">
 
@@ -92,12 +86,12 @@ const ProgressStyle = computed(() => TestDone.value / questionsMax * 100);
                     </div>
                     <TransitionGroup name="flip">
                         <ExampleStart v-if="state === 'start'" 
-                            :description="props.xample.description"
+                            :description="xample.description"
                             @startXample="startXample"
                         ></ExampleStart> 
-                        <Example v-if="state === 'question'" :question="props.xample.items[question].question" 
-                                :answer="props.xample.items[question].answer" 
-                                :words="props.xample.items[question].words"
+                        <Example v-if="state === 'question'" :question="xample.items[question].question" 
+                                :answer="xample.items[question].answer" 
+                                :words="xample.items[question].words"
                                 @successQuestion="successQuestion"
                                 @errorQuestion="errorQuestion"
                         />
@@ -114,7 +108,6 @@ const ProgressStyle = computed(() => TestDone.value / questionsMax * 100);
                 </div>
             </div>
         </div>
-    </AuthenticatedLayout>
 </template>
 
 <style>

@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import VanillaTilt from 'vanilla-tilt';
+import XampleExample from '@/Components/XampleExample.vue';
 
 defineProps({
     canLogin: {
@@ -27,6 +28,7 @@ onMounted(() => {
 		max: 25,
 		speed: 300,
         gyroscope: true,
+        reset: false,
 	});
 })
 </script>
@@ -35,7 +37,7 @@ onMounted(() => {
     <Head title="Welcome" />
 
     <div
-        class="relative flex flex-col h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-emerald-500 selection:text-white z-40"
+        class="relative flex flex-col bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-emerald-500 selection:text-white z-40"
     >
         <div v-if="canLogin" class="sm:top-0 sm:right-0 p-6 text-right">
             <Link
@@ -67,7 +69,7 @@ onMounted(() => {
             </template>
         </div>
 
-        <div class="parallax max-w-7xl mx-auto p-6 lg:p-8 flex flex-col justify-center grow" ref="tiltRef">
+        <div class="parallax max-w-7xl mx-auto p-6 lg:p-8 flex flex-col justify-center grow h-96" ref="tiltRef">
             <div class="flex justify-center">
                 <svg
                     viewBox="0 0 90 91"
@@ -86,6 +88,50 @@ onMounted(() => {
 
             
         </div>
+
+        <div class="max-w-7xl mx-auto p-6 lg:p-8 flex">
+            <ol class="w-full space-y-4 sm:flex sm:space-x-8 sm:space-y-0">
+                <li class="flex items-start text-emerald-500 dark:text-emerald-500 space-x-2">
+                    <span class="flex items-center justify-center w-8 h-8 border border-emerald-500 rounded-full shrink-0 dark:border-emerald-500">
+                        1
+                    </span>
+                    <span>
+                        <h3 class="font-medium text-xl leading-tight">Создайте упражнения</h3>
+                        <p class="text-base text-gray-500">Создайте различные упражнения для обучения своих учеников</p>
+                    </span>
+                </li>
+                <li class="flex items-start text-emerald-500 dark:text-emerald-400 space-x-2">
+                    <span class="flex items-center justify-center w-8 h-8 border border-emerald-500 rounded-full shrink-0 dark:border-emerald-400">
+                        2
+                    </span>
+                    <span>
+                        <h3 class="font-medium text-xl leading-tight">Создайте группы</h3>
+                        <p class="text-base text-gray-500">Установите необходимые упражнения для каждой группы</p>
+                    </span>
+                </li>
+                <li class="flex items-start text-emerald-500 dark:text-emerald-400 space-x-2">
+                    <span class="flex items-center justify-center w-8 h-8 border border-emerald-500 rounded-full shrink-0 dark:border-emerald-400">
+                        3
+                    </span>
+                    <span>
+                        <h3 class="font-medium text-xl leading-tight">Пригласите учеников</h3>
+                        <p class="text-base text-gray-500">Отправьте ученикам ссылку для регистрации</p>
+                    </span>
+                </li>
+                <li class="flex items-start text-emerald-500 dark:text-emerald-400 space-x-2">
+                    <span class="flex items-center justify-center w-8 h-8 border border-emerald-500 rounded-full shrink-0 dark:border-emerald-400">
+                        4
+                    </span>
+                    <span>
+                        <h3 class="font-medium text-xl leading-tight">Следите за их результатами</h3>
+                        <p class="text-base text-gray-500">Отслеживайте успеваемость своих учеников</p>
+                    </span>
+                </li>
+            </ol>
+        </div>
+
+        <XampleExample />
+
         <div class="flex justify-center max-w-7xl mx-auto p-6 lg:p-8 sm:items-center sm:justify-between">
                 <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
                     <div class="flex items-center gap-4">

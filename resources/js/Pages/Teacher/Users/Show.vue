@@ -33,6 +33,7 @@ const group_form = useForm({
                 <div class="w-full bg-white border sm:rounded-lg px-6 py-4">
                     <p>{{user.name}} {{user.surname}}</p>
                     <p>Группа: {{group}}</p>
+                    <p>Рейтинг: {{user.rating}}</p>
                 </div>
                 <form @submit.prevent="group_form.put(route('teacher.updateusergroup'), { onSuccess: () => group_form.reset() })">
                     
