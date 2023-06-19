@@ -44,7 +44,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'group_name'];
 
     /**
      * The attributes that should be cast.
@@ -110,5 +110,16 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->name . ' ' . $this->surname;
+    }
+
+    public function getGroupNameAttribute()
+    {
+        $group = Group::find($this->group_id);
+        if ($group == null) {
+            $group = "Без группы";
+        } else {
+            $group = $group->title;
+        }
+        return $group;
     }
 }

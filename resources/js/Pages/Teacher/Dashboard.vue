@@ -59,7 +59,7 @@ defineProps({
                             <div class="px-6 pb-3 text-gray-900" v-if="students.data == 0">У вас ещё нет учеников</div>
                             <div class="px-6 pb-3 text-gray-900" v-for="student in students.data" 
                                 :key="student.id">
-                                    Ученик: <strong>{{student.name}} {{student.surname}}</strong> Рейтинг: <strong>{{student.rating}}</strong>
+                                    Ученик: <strong>{{student.name}} {{student.surname}}</strong> Рейтинг: <strong>{{student.rating}}</strong> Группа: <strong>{{student.group_name}}</strong>
                             </div>
                             <SimplePagination :prev_page_url="students.prev_page_url" :next_page_url="students.next_page_url" />
                         </div>

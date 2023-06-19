@@ -133,6 +133,13 @@ onMounted(() => {
         <XampleExample />
 
         <div class="flex justify-center max-w-7xl mx-auto p-6 lg:p-8 sm:items-center sm:justify-between">
+            <video  controls="controls" >
+                <source src="/resources/videos/Xample.webm" type='video/webm; codecs="vp8, vorbis"'>
+                Тег video не поддерживается вашим браузером. 
+            </video>
+        </div>
+
+        <div class="flex justify-center max-w-7xl mx-auto p-6 lg:p-8 sm:items-center sm:justify-between">
                 <div class="text-center text-sm text-gray-500 dark:text-gray-400 sm:text-left">
                     <div class="flex items-center gap-4">
                         <p

@@ -79,7 +79,7 @@ const ProgressStyle = computed(() => TestDone.value / questionsMax * 100);
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Упражнение</h2>
         </template>
-{{xample}}
+
         <div class="my-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                  <Link :href="route('dashboard')" class="my-6 text-emerald-500 hover:text-gray-800">Назад</Link>
